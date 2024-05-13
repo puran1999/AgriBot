@@ -1,10 +1,18 @@
 # AgriBot
-A heavy duty industrial robot arm with limited accuracy for cost effective agricultural applications. 
+
+A heavy duty industrial robot arm with limited accuracy for cost effective agricultural applications.
+
+Modern robot arms are rich in extra features, that sometimes may not be required in some special applications. The high accuracy gearboxes, force feedback sensors, sophisticated control and extra degrees of freedom can be removed to reduce the cost of a functional robot arm that can be used in agricultural applications like fruit harvesting and stem pruning.
 
 # Mechanical System Overview
-The current version of this robot arm weighs 26 Kg and has 3 Axes, which allows the end effector to move with 3 degrees of freedom in 3D space with a reach of around 1 metre. The end effector face has five M6 Allen bolts to mount any custom gripper and/or add more degrees of freedom. No position encoders are used in any axes, so there is no closed loop feedback. Instead, the end limit sensors are used to set home reference after the power up. Nema-24 stepper motors are used along with custom designed gearboxes to drive the robot joints.
 
+The image below shows the actual robot developed and the proposed design built in Fusion360.
 ![Unable to load image](/media/robot_arm_side_by_side.png)
+
+The current version of this robot arm weighs 26 Kg and has 3 Axes, which allows the end effector to move with 3 degrees of freedom in 3D space with a reach of around 1 metre. The end effector face has five M6 Allen bolts to mount any custom gripper and/or add more degrees of freedom. No position encoders are used in any axes, so there is no closed loop feedback. Instead, the end limit sensors are used to set home reference after the power up.
+
+Nema-24 stepper motors are used to drive the robot joints with the help of custom designed gearboxes to reduce the minimum required space.
+![Unable to load image](/media/internal_gears_design.png)
 
 # Eletronic System Overview
 
