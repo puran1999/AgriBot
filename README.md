@@ -4,7 +4,7 @@ A heavy duty industrial robot arm with limited accuracy for cost effective agric
 
 Modern robot arms are rich in extra features, that sometimes may not be required in some special applications. The high accuracy gearboxes, force feedback sensors, sophisticated control and extra degrees of freedom can be removed to reduce the cost of a functional robot arm that can be used in agricultural applications like fruit harvesting and stem pruning.
 
-# Mechanical System Overview
+# Mechanical System
 
 The image below shows the actual robot developed and the proposed design built in Fusion360.
 ![Unable to load image](/media/robot_arm_side_by_side.png)
@@ -14,46 +14,55 @@ The current version of this robot arm weighs 26 Kg and has 3 Axes, which allows 
 Nema-24 stepper motors are used to drive the robot joints with the help of custom designed gearboxes to reduce the minimum required space.
 ![Unable to load image](/media/internal_gears_design.png)
 
-# Eletronic System Overview
+# Eletronic System
 
-Stepper drive used, controls stepper motors
+The image below shows the PCB and stepper drives mounted inside the enclosure box. The red button is the emergency stop button which the operator can press to immediately stop all the motion in case of any accident.
 
-ESP32 used, controls drives with pulse and direction. Checks limit sensors and remembers current motor position.
+![Unable to load image](/media/circuit.jpg)
 
-A host PC or any other capable device connects to ESP32 via USB for sending commands and robot pose.
+The enclosure box has a power port and a control port. Reccomended power supply is 24V with at least 3A maximum current. Maximum voltage can go upto 44V DC. The control port has a USB-B interface to connect to any host computer or any other compatible device that can send the position waypoints to the robot. The ESP32 MCU receives the commands and moves the stepper motors accordingly by sending pulse-direction signals to the stepper drives.
 
 # Software System Overview
 
 ESP32 is programmed with [grblHAL](https://github.com/grblHAL) firmware to optimally control motors using a [trapezoidal](https://in.mathworks.com/help/robotics/ug/design-a-trajectory-with-velocity-limits-using-a-trapezoidal-velocity-profile.html) motion profile.
 
-The host computer sends commands and robot pose to ESP32 in [G-CODE](https://en.wikipedia.org/wiki/G-code) format. Many 3D printers and plotters use [common G-CODES](https://linuxcnc.org/docs/html/gcode/g-code.html), so there are many G-CODE sender softwares available for PC. Here, [LaserGRBL](https://lasergrbl.com/) is used which is free and easy to use.
+The host computer sends commands and robot pose to ESP32 in [G-CODE](https://en.wikipedia.org/wiki/G-code) format. Many 3D printers and plotters use [common G-CODES](https://linuxcnc.org/docs/html/gcode/g-code.html), so there are many G-CODE sender softwares available for PC. Here are some recommended free softwares: [UGS](https://winder.github.io/ugs_website/), [LaserGRBL](https://lasergrbl.com/) and [ioSender](https://github.com/terjeio/ioSender).
 
-The G-CODE files with ".nc" extention are used to write program for robot motion. The files can be created in any text editor. Here, [VS code](https://code.visualstudio.com/) is used along with a [G-code extention](https://github.com/scottmwyant/vscode-gcode) that makes editing easier with synax highlighting.
+The G-CODE files with ".nc" extention are used to write program for robot motion. The files can be created in any simple text editor like Windows Notepad. [VS code](https://code.visualstudio.com/) can also be used along with a [G-code extention](https://github.com/scottmwyant/vscode-gcode) that makes editing easier with synax highlighting.
 
-# Demo First Run
+# Instructions for first demo run
 
-## Step 1: Setup Softwares
-Install [LaserGRBL](https://lasergrbl.com/) and [VS code](https://code.visualstudio.com/) on a PC.
+## Step 1: Setup Software
+Install ioSender software on PC or a laptop from [here](https://github.com/terjeio/ioSender/releases) (find the correct asset in latest release) or simply click [here](https://github.com/terjeio/ioSender/releases/download/2.0.44/ioSender.2.0.44.zip) to download the ioSender 2.0.44 version.
 
 ## Step 2: Setup Hardware
-Power up the robot and make sure the surroundings have no objects nearby. Connect the USB cable to the PC or laptop, placed at a distance from robot for safety.
+Power up the robot and connect the USB cable to the computer. The computer should be at a distance from the robot for safety. Make sure the surroundings of the robot have no objects nearby.
 
 ## Step 3: Connection
-Open LaserGRBL on PC and select the correct COM port (tip: open device manager of windows to check the COM port number assigned to the USB serial connection). Set the baud rate to 1115200, and select the option "Grbl > connect" from the menu bar.
+Open ioSender on the computer. During the first run, ioSender asks for connection settings. Select the correct COM port and set the baud rate to 115200. Click the OK button and ioSender should launch.
 
 ## Step 4: Homing
-Press the home button (the button with a lens over a house icon). All the three axes of robot should start running to find the end limit sensor on one side.
+The ioSender should be showing ALARM state. This is because the robot controller does not know the current position of the robot joints yet. Press the "Home" button to initiate the calibration. All the three axes of robot should start running to find the end limit sensor on one side. The home is complete if all three sensors are found and the state changes from ALARM to IDLE.
 
-## Step 5: Running
-Select any G-CODE program, like this "demo.nc" from the menu bar option "File > Open File". Click the Run button (the small green triangle). The robot should now start running according to the program. Tip: increase the counter value near the run button to run the same program multiple times repeatedly, for example, during an exhibition display.
+## Step 5: Running programs
+From the menu bar option, select "File > Load" and select [demo.nc](demo_prog.nc) program (or use any other G-CODE program). Click the "Cycle Start" button to run the program and the robot should start moving accordingly.
 
-## Step 6: Editing (Optional)
-To change the program or load any new program, open VS code and write the G-CODE program in a ".nc" extention file. Always save the file after making any changes, then select the same file again in LaserGRBL to run the program.
+# Doing more
 
-# Safety Tips
+## Jogging
+Moving the robot joints in small steps for testing is called jogging. This is helpful in programming, where the operator needs to go to a location, and then note down the waypoint coordinates. TO jog, make sure the robot is in IDLE state. Click the "Jog" tab at the rght of ioSender window. Click any increment or decrement buttons of the three axes to move the robot in small steps. Adjust the "Feed rate" for the speed of motion and "Distance" for the stepping amount. Since the robot joints are revolute, the axes values X,Y and Z are not cartesian coordinates, but spherical coordinates where each axes represents the angle of the corresponding joints.
 
-## RESET
+## Programming
+To change the program or load any new program, use any simple text editor like Windows Notepad or VS code and write the G-CODE program and save it in as a ".nc" extention file. Always save the file after making any changes, then click the reload file icon in the top left corner of ioSender window.
+
+# Points to remember
+
+## Emergency Stop
+Press emergency stop button immediately if any unintentional motion is observed to prevent accidents. The robot control is open loop, so if some motor steps are missed due to stall (might happen during overload weight payload or under voltage or less current), the controller would not know. In such situation, press emergency stop. It is always mandatory to do homing after the emergency stop.
 ## HOMING
+If home fails, it is likely that any sensor is damaged, or any axis is already beyond the specified limit. In later case, just power off the robot, move all axes to any centre position by hand, and power it again.
+## POWER OFF
+The robot does not have the 'normally active' brakes in the joints. Do not turn off the power to robot when the end effector is high, it may lead to arm falling under it's own weight. Instead, move the arm end effector near to the ground and then release power, or simply hold the end effector anywhere and remove power, then slowly move it to any resting position.
 
 
 
