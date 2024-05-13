@@ -1,12 +1,12 @@
 # AgriBot
 
-An industrial heavy duty robot arm with compromised accuracy for cost effective agricultural applications.
+A heavy duty industrial robot arm with limited accuracy for cost effective agricultural applications.
 
 # Mechanical System Overview
 
 Current version of robot arm has 3 Axes.
 
-photo
+![Image Alt text](/images/robot_arm_1.png)
 
 stepper used, gear ratios
 
