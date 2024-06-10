@@ -47,23 +47,24 @@ The ioSender should be showing ALARM state. This is because the robot controller
 ## Step 5: Running programs
 From the menu bar option, select "File > Load" and select [demo.nc](demo_prog.nc) program (or use any other G-CODE program). Click the "Cycle Start" button to run the program and the robot should start moving accordingly.
 
-# Doing more
+## Doing more
 
-## Jogging
+### Jogging
 Moving the robot joints in small steps for testing is called jogging. This is helpful in programming, where the operator needs to go to a location, and then note down the waypoint coordinates. TO jog, make sure the robot is in IDLE state. Click the "Jog" tab at the rght of ioSender window. Click any increment or decrement buttons of the three axes to move the robot in small steps. Adjust the "Feed rate" for the speed of motion and "Distance" for the stepping amount. Since the robot joints are revolute, the axes values X,Y and Z are not cartesian coordinates, but spherical coordinates where each axes represents the angle of the corresponding joints.
 
-## Programming
+### Programming
 To change the program or load any new program, use any simple text editor like Windows Notepad or VS code and write the G-CODE program and save it in as a ".nc" extention file. Always save the file after making any changes, then click the reload file icon in the top left corner of ioSender window.
 
-# Points to remember
+## Points to remember
 
-## Emergency Stop
+### Emergency Stop
 Press emergency stop button immediately if any unintentional motion is observed to prevent accidents. The robot control is open loop, so if some motor steps are missed due to stall (might happen during overload weight payload or under voltage or less current), the controller would not know. In such situation, press emergency stop. It is always mandatory to do homing after the emergency stop.
-## HOMING
+### HOMING
 If home fails, it is likely that any sensor is damaged, or any axis is already beyond the specified limit. In later case, just power off the robot, move all axes to any centre position by hand, and power it again.
-## POWER OFF
+### POWER OFF
 The robot does not have the 'normally active' brakes in the joints. Do not turn off the power to robot when the end effector is high, it may lead to arm falling under it's own weight. Instead, move the arm end effector near to the ground and then release power, or simply hold the end effector anywhere and remove power, then slowly move it to any resting position.
 
-
+# Future Scope
+A dedicated software for controlling the robot can be developed. This can enhance the user experience by providing the required controls and removing the unwanted clutter. If any application requires more than 3 DOF (degrees of freedom), more axis can be added into the special custom built grippers. This modification would also require to upgrade the electronic control of the robot.
 
 
